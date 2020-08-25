@@ -1,19 +1,22 @@
 const readline = require('readline-sync');
 const VALID_CHOICES = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
-const SHORT_CHOICES = {r: 'rock', p: 'paper', sc: 'scissors', l: 'lizard', sp: 'spock'};
+const ABBREVIATED_CHOICES = {r: 'rock', p: 'paper', sc: 'scissors', l: 'lizard', sp: 'spock'};
+let oneMoreGame;
 
-// Main
-while (true) {
+// Main programme
+do {
+  console.clear();
+
   prompt('Welcome to Rock, Paper, Scissors, Lizard, Spock!')
   displayChoices();
+  let abbreviatedChoice = readline.question();
 
-  let shortChoice = readline.question();
-  while (!SHORT_CHOICES.hasOwnProperty(shortChoice)) {
+  while (!ABBREVIATED_CHOICES.hasOwnProperty(abbreviatedChoice)) {
     prompt('Please enter a valid choice');
-    shortChoice = readline.question();
+    abbreviatedChoice = readline.question();
   }
 
-  let choice = SHORT_CHOICES[shortChoice];
+  let choice = ABBREVIATED_CHOICES[abbreviatedChoice];
 
   let randomIndex = Math.floor(Math.random() * VALID_CHOICES.length);
   let computerChoice = VALID_CHOICES[randomIndex];
@@ -22,14 +25,14 @@ while (true) {
   displayWinner(choice, computerChoice);
 
   prompt('Do you want to play one more game? (y/n)');
-  let answer = readline.question().toLowerCase();
+  oneMoreGame = readline.question().toLowerCase();
 
   while (answer[0] !== 'n' && answer[0] !== 'y') {
     prompt('Please enter "y" or "n".');
-    answer = readline.question().toLowerCase();
+    oneMoreGame = readline.question().toLowerCase();
   }
-  if (answer[0] !== 'y') break;
-}
+
+} while (oneMoreGame[0] === 'y');
 
 // Function that displays message with choices
 function displayChoices() {
