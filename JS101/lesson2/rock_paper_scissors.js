@@ -1,38 +1,24 @@
 const readline = require('readline-sync');
-const VALID_CHOICES = ['rock', 'paper', 'scissors'];
+const VALID_CHOICES = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
+const SHORT_CHOICES = {r: 'rock', p: 'paper', sc: 'scissors', l: 'lizard', sp: 'spock'};
 
-function prompt(message) {
-  console.log(`=> ${message}`);
-}
-
-function displayWinner(choice, computerChoice) {
-  prompt(`You chose ${choice}, computer chose ${computerChoice}`);
-
-  if ((choice === 'rock' && computerChoice === 'scissors') ||
-      (choice === 'paper' && computerChoice === 'rock') ||
-      (choice === 'scissors' && computerChoice === 'paper')) {
-    prompt('You win!');
-  } else if ((choice === 'rock' && computerChoice === 'paper') ||
-             (choice === 'paper' && computerChoice === 'scissors') ||
-             (choice === 'scissors' && computerChoice === 'rock')) {
-    prompt('Computer wins!');
-  } else {
-    prompt("It's a tie!");
-  }
-}
-
+// Main
 while (true) {
-  prompt(`Choose one: ${VALID_CHOICES.join(', ')}`);
-  let choice = readline.question();
+  prompt('Welcome to Rock, Paper, Scissors, Lizard, Spock!')
+  displayChoices();
 
-  while (!VALID_CHOICES.includes(choice)) {
+  let shortChoice = readline.question();
+  while (!SHORT_CHOICES.hasOwnProperty(shortChoice)) {
     prompt('Please enter a valid choice');
-    choice = readline.question();
+    shortChoice = readline.question();
   }
+
+  let choice = SHORT_CHOICES[shortChoice];
 
   let randomIndex = Math.floor(Math.random() * VALID_CHOICES.length);
   let computerChoice = VALID_CHOICES[randomIndex];
 
+  prompt(`You chose ${choice}, computer chose ${computerChoice}`);
   displayWinner(choice, computerChoice);
 
   prompt('Do you want to play one more game? (y/n)');
@@ -43,4 +29,56 @@ while (true) {
     answer = readline.question().toLowerCase();
   }
   if (answer[0] !== 'y') break;
+}
+
+// Function that displays message with choices
+function displayChoices() {
+  prompt('Choose one:')
+  for (let i = 0; i < VALID_CHOICES.length; i++) {
+    if (VALID_CHOICES[i] === 'scissors') {
+      prompt(`${VALID_CHOICES[i].substring(0,2)} for ${VALID_CHOICES[i]}`);
+      continue;
+    }
+    if (VALID_CHOICES[i] === 'spock') {
+      prompt(`${VALID_CHOICES[i].substring(0,2)} for ${VALID_CHOICES[i]}`);
+      continue;
+    }
+    prompt(`${VALID_CHOICES[i][0]} for ${VALID_CHOICES[i]}`);
+  }
+}
+
+function prompt(message) {
+  console.log(`=> ${message}`);
+}
+
+function checkIfWin(choice, computerChoice) {
+  if ((choice === 'rock' && (computerChoice === 'scissors' || computerChoice === 'lizard')) ||
+      (choice === 'paper' && (computerChoice === 'rock' || computerChoice === 'spock')) ||
+      (choice === 'scissors' && (computerChoice === 'paper' || computerChoice === 'lizard')) ||
+      (choice === 'lizard' && (computerChoice === 'spock' || computerChoice === 'paper')) ||
+      (choice === 'spock' && (computerChoice === 'rock' || computerChoice === 'scissors'))) {
+    return true;
+  }
+  return false;
+}
+
+function checkIfLose(choice, computerChoice) {
+  if ((choice === 'rock' && (computerChoice === 'paper' || computerChoice === 'spock')) ||
+             (choice === 'paper' && (computerChoice === 'scissors' || computerChoice === 'lizard')) ||
+             (choice === 'scissors' && (computerChoice === 'rock' || computerChoice === 'spock')) ||
+             (choice === 'lizard' && (computerChoice === 'rock' || computerChoice === 'scissors')) ||
+             (choice === 'spock' && (computerChoice === 'lizard' || computerChoice === 'paper'))) {
+    return true;
+  }
+  return false;
+}
+
+function displayWinner(choice, computerChoice) {
+  if (checkIfWin(choice, computerChoice)) {
+    prompt('You win!');
+  } else if (checkIfLose(choice, computerChoice)) {
+    prompt('Computer wins!');
+  } else {
+    prompt("It's a tie!");
+  }
 }
