@@ -1,10 +1,12 @@
 const readline = require('readline-sync');
 const VALID_CHOICES = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
 const ABBREVIATED_CHOICES = {r: 'rock', p: 'paper', sc: 'scissors', l: 'lizard', sp: 'spock'};
-let oneMoreGame;
+let score = 0;
+let computerScore = 0;
+const MAX_SCORE = 5;
 
 // Main programme
-do {
+while (true) {
   console.clear();
 
   prompt('Welcome to Rock, Paper, Scissors, Lizard, Spock!')
@@ -24,15 +26,32 @@ do {
   prompt(`You chose ${choice}, computer chose ${computerChoice}`);
   displayWinner(choice, computerChoice);
 
-  prompt('Do you want to play one more game? (y/n)');
-  oneMoreGame = readline.question().toLowerCase();
+  computeScore(choice, computerChoice)
+  prompt(`Your score is ${score}. Computer's score is ${computerScore}.`)
+  let oneMoreGame;
 
-  while (answer[0] !== 'n' && answer[0] !== 'y') {
+  if (score < MAX_SCORE && computerScore < MAX_SCORE) {
+    prompt('Do you want to play one more game? (y/n)');
+    oneMoreGame = readline.question().toLowerCase();
+  } else {
+    oneMoreGame = 'n';
+  }
+
+  while (oneMoreGame[0] !== 'n' && oneMoreGame[0] !== 'y') {
     prompt('Please enter "y" or "n".');
     oneMoreGame = readline.question().toLowerCase();
   }
+  if (oneMoreGame[0] === 'n') break;
+}
 
-} while (oneMoreGame[0] === 'y');
+// final message
+if (score > computerScore) {
+  prompt('Game over. You are a grand winner!');
+} else if (computerScore > score) {
+  prompt('Game over. Computer is a grand winner!');
+} else {
+  prompt("Game over. It's a tie.");
+}
 
 // Function that displays message with choices
 function displayChoices() {
@@ -52,6 +71,24 @@ function displayChoices() {
 
 function prompt(message) {
   console.log(`=> ${message}`);
+}
+
+function computeScore(choice, computerChoice) {
+  if (checkIfWin(choice, computerChoice)) {
+    score += 1;
+  } else if (checkIfLose(choice, computerChoice)) {
+    computerScore += 1;
+  }
+}
+
+function displayWinner(choice, computerChoice) {
+  if (checkIfWin(choice, computerChoice)) {
+    prompt('You win!');
+  } else if (checkIfLose(choice, computerChoice)) {
+    prompt('Computer wins!');
+  } else {
+    prompt("It's a tie!");
+  }
 }
 
 function checkIfWin(choice, computerChoice) {
@@ -74,14 +111,4 @@ function checkIfLose(choice, computerChoice) {
     return true;
   }
   return false;
-}
-
-function displayWinner(choice, computerChoice) {
-  if (checkIfWin(choice, computerChoice)) {
-    prompt('You win!');
-  } else if (checkIfLose(choice, computerChoice)) {
-    prompt('Computer wins!');
-  } else {
-    prompt("It's a tie!");
-  }
 }
