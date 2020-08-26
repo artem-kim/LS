@@ -13,6 +13,7 @@ while (true) {
   displayChoices();
   let abbreviatedChoice = readline.question();
 
+  // Check for valid choice
   while (!ABBREVIATED_CHOICES.hasOwnProperty(abbreviatedChoice)) {
     prompt('Please enter a valid choice');
     abbreviatedChoice = readline.question();
