@@ -1,6 +1,7 @@
 const readline = require('readline-sync');
 const VALID_CHOICES = ['rock', 'paper', 'scissors', 'lizard', 'spock'];
-const ABBREVIATED_CHOICES = {r: 'rock', p: 'paper', sc: 'scissors', l: 'lizard', sp: 'spock'};
+const ABBREVIATED_CHOICES =
+{r: 'rock', p: 'paper', sc: 'scissors', l: 'lizard', sp: 'spock'};
 let score = 0;
 let computerScore = 0;
 const MAX_SCORE = 5;
@@ -9,7 +10,7 @@ const MAX_SCORE = 5;
 while (true) {
   console.clear();
 
-  prompt('Welcome to Rock, Paper, Scissors, Lizard, Spock!')
+  prompt('Welcome to Rock, Paper, Scissors, Lizard, Spock!');
   displayChoices();
   let abbreviatedChoice = readline.question();
 
@@ -27,8 +28,8 @@ while (true) {
   prompt(`You chose ${choice}, computer chose ${computerChoice}`);
   displayWinner(choice, computerChoice);
 
-  computeScore(choice, computerChoice)
-  prompt(`Your score is ${score}. Computer's score is ${computerScore}.`)
+  computeScore(choice, computerChoice);
+  prompt(`Your score is ${score}. Computer's score is ${computerScore}.`);
   let oneMoreGame;
 
   if (score < MAX_SCORE && computerScore < MAX_SCORE) {
@@ -56,17 +57,17 @@ if (score > computerScore) {
 
 // Function that displays message with choices
 function displayChoices() {
-  prompt('Choose one:')
-  for (let i = 0; i < VALID_CHOICES.length; i++) {
-    if (VALID_CHOICES[i] === 'scissors') {
-      prompt(`${VALID_CHOICES[i].substring(0,2)} for ${VALID_CHOICES[i]}`);
+  prompt('Choose one:');
+  for (let index = 0; index < VALID_CHOICES.length; index++) {
+    if (VALID_CHOICES[index] === 'scissors') {
+      prompt(`${VALID_CHOICES[index].substring(0,2)} for ${VALID_CHOICES[index]}`);
       continue;
     }
-    if (VALID_CHOICES[i] === 'spock') {
-      prompt(`${VALID_CHOICES[i].substring(0,2)} for ${VALID_CHOICES[i]}`);
+    if (VALID_CHOICES[index] === 'spock') {
+      prompt(`${VALID_CHOICES[index].substring(0,2)} for ${VALID_CHOICES[index]}`);
       continue;
     }
-    prompt(`${VALID_CHOICES[i][0]} for ${VALID_CHOICES[i]}`);
+    prompt(`${VALID_CHOICES[index][0]} for ${VALID_CHOICES[index]}`);
   }
 }
 
@@ -93,22 +94,32 @@ function displayWinner(choice, computerChoice) {
 }
 
 function checkIfWin(choice, computerChoice) {
-  if ((choice === 'rock' && (computerChoice === 'scissors' || computerChoice === 'lizard')) ||
-      (choice === 'paper' && (computerChoice === 'rock' || computerChoice === 'spock')) ||
-      (choice === 'scissors' && (computerChoice === 'paper' || computerChoice === 'lizard')) ||
-      (choice === 'lizard' && (computerChoice === 'spock' || computerChoice === 'paper')) ||
-      (choice === 'spock' && (computerChoice === 'rock' || computerChoice === 'scissors'))) {
+  if ((choice === 'rock' && (computerChoice === 'scissors' ||
+  computerChoice === 'lizard')) ||
+      (choice === 'paper' && (computerChoice === 'rock' ||
+      computerChoice === 'spock')) ||
+      (choice === 'scissors' && (computerChoice === 'paper' ||
+      computerChoice === 'lizard')) ||
+      (choice === 'lizard' && (computerChoice === 'spock' ||
+      computerChoice === 'paper')) ||
+      (choice === 'spock' && (computerChoice === 'rock' ||
+      computerChoice === 'scissors'))) {
     return true;
   }
   return false;
 }
 
 function checkIfLose(choice, computerChoice) {
-  if ((choice === 'rock' && (computerChoice === 'paper' || computerChoice === 'spock')) ||
-             (choice === 'paper' && (computerChoice === 'scissors' || computerChoice === 'lizard')) ||
-             (choice === 'scissors' && (computerChoice === 'rock' || computerChoice === 'spock')) ||
-             (choice === 'lizard' && (computerChoice === 'rock' || computerChoice === 'scissors')) ||
-             (choice === 'spock' && (computerChoice === 'lizard' || computerChoice === 'paper'))) {
+  if ((choice === 'rock' && (computerChoice === 'paper' ||
+  computerChoice === 'spock')) ||
+             (choice === 'paper' && (computerChoice === 'scissors' ||
+             computerChoice === 'lizard')) ||
+             (choice === 'scissors' && (computerChoice === 'rock' ||
+             computerChoice === 'spock')) ||
+             (choice === 'lizard' && (computerChoice === 'rock' ||
+             computerChoice === 'scissors')) ||
+             (choice === 'spock' && (computerChoice === 'lizard' ||
+             computerChoice === 'paper'))) {
     return true;
   }
   return false;
