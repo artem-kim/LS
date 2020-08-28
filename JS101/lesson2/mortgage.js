@@ -23,7 +23,7 @@ do {
   }
 
   prompt("What's the Annual Percentage Rate (APR)?
-         For example, enter '5%' as 5.");
+  For example, enter '5%' as 5.");
   let apr = readline.question();
 
   while (invalidNumber(apr)) {
